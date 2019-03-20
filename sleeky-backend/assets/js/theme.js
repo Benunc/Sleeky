@@ -37,11 +37,8 @@ $( document ).ready(function() {
     // Login page
     console.log("Login page");
 
-    if (theme == "light") {
-      $("#login").prepend(`<img src="${url}/assets/img/logo_black.png">`);
-    } else if (theme == "dark") {
-      $("#login").prepend(`<img src="${url}/assets/img/logo_white.png">`);
-    }
+
+      $("#login").prepend(`<img class="main-login-image" src="${url}/assets/img/logo_white.png">`);
 
     
   } else if ($("body").hasClass("index")) {
@@ -103,11 +100,8 @@ $( document ).ready(function() {
   }
 
   function handleNav() {
-    // Add logo
-    $("#wrap").prepend(`<img class="logo" src="${url}/assets/img/logo_white.png">`);
-
-    // Add frontend link
-    $('#admin_menu').append('<li class="admin_menu_toplevel"><a href="/"><i class="material-icons">arrow_back</i> Frontend Interface</a></li>');
+      // Add logo
+      $("#wrap").prepend(`<img class="logo" src="${url}/assets/img/logo_white.png">`);
   }
 
   // Update P elements

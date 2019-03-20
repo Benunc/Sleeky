@@ -16,6 +16,21 @@ $url = yourls_plugin_url( __DIR__ );
 
 yourls_add_action( 'html_head', 'init' );
 
+//adds a method for hiding all nonessential links from clients
+yourls_add_action( 'html_head', 'ben_hide_the_buttons', 15 );
+
+function ben_hide_the_buttons() {
+
+	if( YOURLS_USER !== 'ben' ) {
+		$url = yourls_plugin_url( __DIR__ );
+		echo <<<HEAD
+			<link rel="stylesheet" href="$url/assets/css/blockit.css">
+HEAD;
+	}
+return;
+
+}
+
 function init()
 {
 	echo <<<HEAD
@@ -85,31 +100,37 @@ HEAD;
 }
 
 // Register our plugin admin page
+
 yourls_add_action( 'plugins_loaded', 'sleeky_add_settings' );
+
 function sleeky_add_settings() {
-	yourls_register_plugin_page( 'sleeky_settings', 'Sleeky Settings', 'sleeky_do_settings_page' );
+
+		yourls_register_plugin_page( 'sleeky_settings', 'Sleeky Settings', 'sleeky_do_settings_page' );
+
 	// parameters: page slug, page title, and function that will display the page itself
 }
 
 // Display admin page
 function sleeky_do_settings_page() {
-
+ var_dump(YOURLS_USER );
 	// Check if a form was submitted
-	if( isset( $_POST['theme_choice'] ) ) {
-		// Check nonce
-		yourls_verify_nonce( 'sleeky_settings' );
-		
-		// Process form
-		sleeky_settings_update();
-	}
 
-	// Get value from database
-	$theme_choice = yourls_get_option( 'theme_choice' );
-	
-	// Create nonce
-	$nonce = yourls_create_nonce( 'sleeky_settings' );
+		if ( isset( $_POST['theme_choice'] ) ) {
+			// Check nonce
+			yourls_verify_nonce( 'sleeky_settings' );
 
-	echo <<<HTML
+			// Process form
+			sleeky_settings_update();
+		}
+
+
+		// Get value from database
+		$theme_choice = yourls_get_option( 'theme_choice' );
+
+		// Create nonce
+		$nonce = yourls_create_nonce( 'sleeky_settings' );
+
+		echo <<<HTML
 		<h2>Sleeky Settings</h2>
 		<!-- <p>This plugin stores an integer in the option database</p> -->
 		<form method="post">
@@ -126,6 +147,7 @@ function sleeky_do_settings_page() {
 		</form>
 
 HTML;
+
 }
 
 // Update option in database
